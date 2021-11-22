@@ -310,13 +310,13 @@ restore_error_handler();
             //code to create results from data
             for (var location of JSONData) {
               // console.log(location);
-              if (location['Name_EN'] != '') {
-                title = location['Name_EN'];
+              if (location['name_EN'] != '') {
+                title = location['name_EN'];
               } else {
-                title = location['Name_IT'];
+                title = location['name_IT'];
               }
-              createNewResult(location['id'], title, location['Description_EN'], location['Type'], location['Website']);
-              createNewMarker(location['id'], title, location['Lat'], location['Lon'], location['Type']);
+              createNewResult(location['id'], title, location['description_EN'], location['type'], location['website']);
+              createNewMarker(location['id'], title, location['lat'], location['lon'], location['type']);
             }
           } else {
             alert('Request failure.');
@@ -332,7 +332,7 @@ restore_error_handler();
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
         maxZoom: 18,
-        id: 'mapbox/streets-v11',
+        id: 'mapbox/light-v9',
         tileSize: 512,
         zoomOffset: -1,
         accessToken: 'pk.eyJ1Ijoib3NzZXJ2YXRvcmlvZGFydGV2ZW5lemlhIiwiYSI6ImNrdjg1dGx4ZTF3OGwybnA2bmNhcDV0anEifQ.26pkj5a9zna3N4vVLz0J8g'
@@ -358,8 +358,8 @@ restore_error_handler();
 
     //MARKER ICONS
     var icon_galleries = L.icon({
-        iconUrl: 'Markers/Marker_Gallery.png',
-        shadowUrl: 'Markers/Marker_Shadow.png',
+        iconUrl: 'images/markers/Marker_Gallery.png',
+        shadowUrl: 'images/markers/Marker_Shadow.png',
         iconSize: [50, 50],
         shadowSize: [50, 50],
         iconAnchor: [25, 45],
@@ -367,8 +367,8 @@ restore_error_handler();
         popupAnchor: [0, -40]
     });
     var icon_museums = L.icon({
-        iconUrl: 'Markers/Marker_Museum.png',
-        shadowUrl: 'Markers/Marker_Shadow.png',
+        iconUrl: 'images/markers/Marker_Museum.png',
+        shadowUrl: 'images/markers/Marker_Shadow.png',
         iconSize: [50, 50],
         shadowSize: [50, 50],
         iconAnchor: [25, 45],
@@ -376,8 +376,8 @@ restore_error_handler();
         popupAnchor: [0, -40]
     });
     var icon_opera = L.icon({
-        iconUrl: 'Markers/Marker_Opera.png',
-        shadowUrl: 'Markers/Marker_Shadow.png',
+        iconUrl: 'images/markers/Marker_Opera.png',
+        shadowUrl: 'images/markers/Marker_Shadow.png',
         iconSize: [50, 50],
         shadowSize: [50, 50],
         iconAnchor: [25, 45],
@@ -385,8 +385,8 @@ restore_error_handler();
         popupAnchor: [0, -40]
     });
     var icon_theatres = L.icon({
-        iconUrl: 'Markers/Marker_Theatre.png',
-        shadowUrl: 'Markers/Marker_Shadow.png',
+        iconUrl: 'images/markers/Marker_Theatre.png',
+        shadowUrl: 'images/markers/Marker_Shadow.png',
         iconSize: [50, 50],
         shadowSize: [50, 50],
         iconAnchor: [25, 45],
@@ -395,14 +395,14 @@ restore_error_handler();
     });
     var icon_dot_size = 12;
     var icon_dot = L.icon({
-      iconUrl: "Markers/Marker_Dot.png",
+      iconUrl: "images/markers/Marker_Dot.png",
       iconSize: [icon_dot_size, icon_dot_size],
       iconAnchor: [icon_dot_size/2, icon_dot_size/2],
       popupAnchor: [0, 0]
     })
     var icon_unknown = L.icon({
-        iconUrl: 'Markers/Marker_Other.png',
-        shadowUrl: 'Markers/Marker_Shadow.png',
+        iconUrl: 'images/markers/Marker_Other.png',
+        shadowUrl: 'images/markers/Marker_Shadow.png',
         iconSize: [50, 50],
         shadowSize: [50, 50],
         iconAnchor: [25, 45],
@@ -414,18 +414,18 @@ restore_error_handler();
     function createNewMarker(databaseID, venueName, lat, lng, category) {
         //select icontype
         switch (category) {
-          case 'Gallery':
-            var iconType = icon_galleries;
-            break;
-          case 'Museum':
-            var iconType = icon_museums;
-            break;
-          case 'Theatre':
-            var iconType = icon_theatres;
-            break;
-          case 'Opera':
-            var iconType = icon_opera;
-            break;
+          // case 'Gallery':
+          //   var iconType = icon_galleries;
+          //   break;
+          // case 'Museum':
+          //   var iconType = icon_museums;
+          //   break;
+          // case 'Theatre':
+          //   var iconType = icon_theatres;
+          //   break;
+          // case 'Opera':
+          //   var iconType = icon_opera;
+          //   break;
           default:
             iconType = icon_dot;
         }

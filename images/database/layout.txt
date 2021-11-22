@@ -1,0 +1,27 @@
+locationdata
+├─ id
+├─ evenice_id
+├─ name_IT
+├─ name_EN
+├─ description_IT
+├─ description_EN
+├─ organization_IT
+├─ organization_EN
+├─ address
+├─ lat
+├─ lon
+├─ type
+├─ evenice_type
+└─ website
+
+eventdata
+├─ id
+├─ evenice_id
+├─ evenice_location_id
+├─ event_name
+├─ location_name
+├─ event_description
+├─ start_date
+├─ start_time
+├─ end_date
+└─ end_time
