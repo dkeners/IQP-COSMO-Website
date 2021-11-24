@@ -88,9 +88,11 @@ if (isset($_POST['type'])) {
               <div class="hidden" id="eventsOptions">
                 <!--DATE PANEL STRUCTURE-->
                 <div id='datePanel'>
-                    <input class='dateField' type='date' id='fromDate'></input>
+                    <!-- cannot be earlier than the earliest datapoint -->
+                    <input class='dateField' type='date' id='fromDate' min="2015-03-03"></input>
                     <label id='datePanelToLabel'>To</label>
-                    <input class='dateField' type='date' id='toDate'></input>
+                    <!-- Should eventtually make the 'toDate' date update if 'fromDate' is set -->
+                    <input class='dateField' type='date' id='toDate' min="2015-03-03"></input>
                 </div>
                 <!--CATEGORY PANEL STRUCTURE-->
                 <div class='categoryPanel'>

@@ -18,7 +18,7 @@ function showResult(str) {
   }
   xhttp.open('POST', 'searchFunc.php', true);
   xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-  params = "live=1&limit=10&title=" + str;
+  params = "reqType=live&limit=10&title=" + str;
   xhttp.send(params);
 }
 

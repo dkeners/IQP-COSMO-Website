@@ -6,7 +6,7 @@ session_start();
 // If not logged in add a login button.
 if (isset($_SESSION['logged_in'])) {
   $login_out_button = "
-    <form class='' action='addData.php' method='get'>
+    <form class='' action='manageData.php' method='get'>
       <input type='submit' name='' value='To Data Management'>
     </form>
     <form class='' action='logout.php' method='post'>

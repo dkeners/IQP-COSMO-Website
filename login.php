@@ -3,7 +3,7 @@
 session_start();
 
 if (isset($_SESSION['logged_in'])) {
-  header('Location: addData.php');
+  header('Location: manageData.php');
   die;
 }
 

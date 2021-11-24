@@ -34,5 +34,7 @@ if ($stmt = $con->prepare('SELECT id, password FROM authusers WHERE username = ?
   }
 
   $stmt->close();
+
+  die;
 }
 ?>
