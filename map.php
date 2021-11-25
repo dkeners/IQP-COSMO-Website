@@ -256,24 +256,45 @@ restore_error_handler();
       <div id="searchBarWrapper">
           <!--SEARCH PANEL STRUCTURE-->
           <div id="searchClick">
-            <div class='searchBar'>
+            <div class='searchBar' onblur="showResult('')">
                 <input type='text' id='searchTextField' placeholder="Search by Name or Keyword..."  onkeyup="showResult(this.value)"></input>
                 <button id='searchButton' onclick="updateResults('reqType=map')">SEARCH</button>
             </div>
             <div id="livesearch"></div>
           </div>
-          <!--DATE PANEL STRUCTURE-->
+          <!--Venue/Event PANEL STRUCTURE-->
           <div id='datePanel'>
-              <input class='dateField' type='date' id='fromDate'></input>
-              <label id='datePanelToLabel'>To</label>
-              <input class='dateField' type='date' id='toDate'></input>
+            <div data-state='enabled' class='categoryCheckbox CC_venues_checkbox' id='venues_checkbox' onclick='toggleCheckbox(id)'>Venues</div>
+            <div data-state='disabled' class='categoryCheckbox CC_disabled' id='events_checkbox' onclick='toggleCheckbox(id)'>Events</div>
+            <div data-state='disabled' class='categoryCheckbox CC_disabled' id='options_checkbox' onclick='toggleOptions(this)'>More Options</div>
           </div>
-          <!--CATEGORY PANEL STRUCTURE-->
-          <div class='categoryPanel'>
-              <div data-state='disabled' class='categoryCheckbox CC_disabled' id='galleries_checkbox' onclick='toggleCheckbox(id)'>Galleries</div>
-              <div data-state='disabled' class='categoryCheckbox CC_disabled' id='museums_checkbox' onclick='toggleCheckbox(id)'>Museums</div>
-              <div data-state='disabled' class='categoryCheckbox CC_disabled' id='theatres_checkbox' onclick='toggleCheckbox(id)'>Theatres</div>
-              <div data-state='disabled' class='categoryCheckbox CC_disabled' id='opera_checkbox' onclick='toggleCheckbox(id)'>Opera Houses</div>
+          <div class="extraSearchOptions hidden" id="expandableSearchBar">
+            <div class="hidden" id="eventsOptions">
+              <!--DATE PANEL STRUCTURE-->
+              <div id='datePanel'>
+                  <!-- cannot be earlier than the earliest datapoint -->
+                  <input class='dateField' type='date' id='fromDate' min="2015-03-03"></input>
+                  <label id='datePanelToLabel'>To</label>
+                  <!-- Should eventtually make the 'toDate' date update if 'fromDate' is set -->
+                  <input class='dateField' type='date' id='toDate' min="2015-03-03"></input>
+              </div>
+              <!--CATEGORY PANEL STRUCTURE-->
+              <div class='categoryPanel'>
+                  <div data-state='disabled' class='categoryCheckbox CC_disabled' id='evenice_1_checkbox' onclick='toggleCheckbox(id)'>evenice_1</div>
+                  <div data-state='disabled' class='categoryCheckbox CC_disabled' id='evenice_2_checkbox' onclick='toggleCheckbox(id)'>evenice_2</div>
+                  <div data-state='disabled' class='categoryCheckbox CC_disabled' id='evenice_3_checkbox' onclick='toggleCheckbox(id)'>evenice_3</div>
+                  <div data-state='disabled' class='categoryCheckbox CC_disabled' id='evenice_4_checkbox' onclick='toggleCheckbox(id)'>evenice_4</div>
+              </div>
+            </div>
+            <div class="" id="venueOptions">
+              <!--CATEGORY PANEL STRUCTURE-->
+              <div class='categoryPanel'>
+                  <div data-state='disabled' class='categoryCheckbox CC_disabled' id='galleries_checkbox' onclick='toggleCheckbox(id)'>Galleries</div>
+                  <div data-state='disabled' class='categoryCheckbox CC_disabled' id='museums_checkbox' onclick='toggleCheckbox(id)'>Museums</div>
+                  <div data-state='disabled' class='categoryCheckbox CC_disabled' id='theatres_checkbox' onclick='toggleCheckbox(id)'>Theatres</div>
+                  <div data-state='disabled' class='categoryCheckbox CC_disabled' id='opera_checkbox' onclick='toggleCheckbox(id)'>Opera Houses</div>
+              </div>
+            </div>
           </div>
         </div>
 

@@ -74,13 +74,13 @@ if (isset($_POST['type'])) {
             <div id="searchClick">
               <div class='searchBar' onblur="showResult('')">
                   <input type='text' id='searchTextField' placeholder="Search by Name or Keyword..."  onkeyup="showResult(this.value)"></input>
-                  <button id='searchButton' onclick="updateResults('reqType=search')">SEARCH</button>
+                  <button id='searchButton' onclick="updateResults('reqType=search&limit=50')">SEARCH</button>
               </div>
               <div id="livesearch"></div>
             </div>
             <!--Venue/Event PANEL STRUCTURE-->
             <div id='datePanel'>
-              <div data-state='disabled' class='categoryCheckbox CC_disabled' id='venues_checkbox' onclick='toggleCheckbox(id)'>Venues</div>
+              <div data-state='enabled' class='categoryCheckbox CC_venues_checkbox' id='venues_checkbox' onclick='toggleCheckbox(id)'>Venues</div>
               <div data-state='disabled' class='categoryCheckbox CC_disabled' id='events_checkbox' onclick='toggleCheckbox(id)'>Events</div>
               <div data-state='disabled' class='categoryCheckbox CC_disabled' id='options_checkbox' onclick='toggleOptions(this)'>More Options</div>
             </div>
@@ -102,7 +102,7 @@ if (isset($_POST['type'])) {
                     <div data-state='disabled' class='categoryCheckbox CC_disabled' id='evenice_4_checkbox' onclick='toggleCheckbox(id)'>evenice_4</div>
                 </div>
               </div>
-              <div class="hidden" id="venueOptions">
+              <div class="" id="venueOptions">
                 <!--CATEGORY PANEL STRUCTURE-->
                 <div class='categoryPanel'>
                     <div data-state='disabled' class='categoryCheckbox CC_disabled' id='galleries_checkbox' onclick='toggleCheckbox(id)'>Galleries</div>

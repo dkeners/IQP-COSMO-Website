@@ -37,6 +37,8 @@ function selectSuggestion(e) {
 function updateResults(params) {
     //GET / define filter parameters
     var searchString = document.getElementById('searchTextField').value;
+    var venues = document.getElementById('venues_checkbox').getAttribute('data-state') == 'enabled';
+    var events = document.getElementById('events_checkbox').getAttribute('data-state') == 'enabled';
     var startDate = document.getElementById('fromDate').value;
     var endDate = document.getElementById('toDate').value;
     var includeGalleries = document.getElementById('galleries_checkbox').getAttribute('data-state') == 'enabled';
@@ -44,20 +46,21 @@ function updateResults(params) {
     var includeTheatres = document.getElementById('theatres_checkbox').getAttribute('data-state') == 'enabled';
     var includeOperaHouses = document.getElementById('opera_checkbox').getAttribute('data-state') == 'enabled';
 
-    //debug output
-    // console.log("----- NEW FILTER PARAMETERS -----");
-    // console.log("SEARCH STRING: "+searchString);
-    // console.log("START DATE: " + startDate);
-    // console.log("END DATE: " + endDate);
-    // console.log("INCLUDE GALLERIES: "+includeGalleries);
-    // console.log("INCLUDE MUSEUMS: "+includeMuseums);
-    // console.log("INCLUDE THEATRES: "+includeTheatres);
-    // console.log("INCLUDE OPERA HOUSES: "+includeOperaHouses);
 
-    // Set the parameters:
+    // SETTING PARAMETERS FOR THE SEARCHFUNC FILE
+    // Some of these act as 'pre-sanitized' though some get sanitized later
+
+    // Set table to search from:
+    if (venues) {
+      params += '&table=location';
+    } else if (events) {
+      params += '&table=event'
+    }
+
     if (searchString != '') {
       params += '&keyword=' + searchString;
     }
+
     // Dates only needed for events
     if (startDate != '') {
       params += '&start=' + startDate;
@@ -65,19 +68,20 @@ function updateResults(params) {
     if (endDate != '') {
       params += '&end=' + endDate;
     }
-    // Check which types are needed
-    if (includeGalleries) {
-      params += '&Gallery=1';
-    }
-    if (includeMuseums) {
-      params += '&Museum=1';
-    }
-    if (includeTheatres) {
-      params += '&Theatre=1';
-    }
-    if (includeOperaHouses) {
-      params += '&Opera=1';
-    }
+
+    // // Check which types are needed
+    // if (includeGalleries) {
+    //   params += '&Gallery=1';
+    // }
+    // if (includeMuseums) {
+    //   params += '&Museum=1';
+    // }
+    // if (includeTheatres) {
+    //   params += '&Theatre=1';
+    // }
+    // if (includeOperaHouses) {
+    //   params += '&Opera=1';
+    // }
 
     // code to get data from server via parameters
     getDB(params);
@@ -100,7 +104,7 @@ function disableCheckbox(checkboxID) {
 }
 
 //TOGGLE CUSTOM CHECKBOX
-function toggleCheckbox(checkboxID) {
+function toggleCheckbox(checkboxID, recursive=false) {
     var targetCheckbox = document.getElementById(checkboxID);
     var startState = targetCheckbox.getAttribute('data-state');
 
@@ -112,18 +116,25 @@ function toggleCheckbox(checkboxID) {
         //TOGGLE TO ENABLED STATE
         targetCheckbox.setAttribute('data-state', 'enabled');
         targetCheckbox.setAttribute('class', 'categoryCheckbox CC_'+checkboxID);
-        // console.log("ENABLED " + checkboxID + " CHECKBOX");
     }
 
-    // toggle extra options for venue and events
-    if (checkboxID == 'venues_checkbox') {
-      document.getElementById('venueOptions').classList.toggle('hidden');
-    } else if (checkboxID == 'events_checkbox') {
-      document.getElementById('eventsOptions').classList.toggle('hidden');
-    }
+    if (!recursive) {
+      // Toggle extra options visibility for venue and events (Venue starts on)
+      if (checkboxID == 'venues_checkbox') {
+        document.getElementById('eventsOptions').classList.toggle('hidden');
+        document.getElementById('venueOptions').classList.toggle('hidden');
+        toggleCheckbox('events_checkbox', true)
+      } else if (checkboxID == 'events_checkbox') {
+        document.getElementById('eventsOptions').classList.toggle('hidden');
+        document.getElementById('venueOptions').classList.toggle('hidden');
+        toggleCheckbox('venues_checkbox', true)
+      }
 
-    // Immediatly update the newest
-    document.getElementById("searchButton").click();
+      // Immediatly update the results as long as not the more/less options box
+      if (checkboxID != 'options_checkbox') {
+        document.getElementById("searchButton").click();
+      }
+    }
 }
 
 // Function to display the extra sorting options
