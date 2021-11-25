@@ -20,7 +20,7 @@ a:hover {
   text-decoration: underline;
 }
 .hidden {
-  display: none;
+  display: none !important;
 }
 .header {
   background-color: white;
