@@ -12,7 +12,7 @@ if (!isset($_SESSION['logged_in'])) {
 
 // Check to see if a database query was made, if so display of it was succesfull
 if (isset($_GET['dataSubmitted'])) {
-  $lastPostSuccess = ($_GET['dataSubmitted'] == 1) ? "<h1>Post was a success: 201</h1>" : "<h1>Post failed</h1>";
+  $lastPostSuccess = ($_GET['dataSubmitted'] == 1) ? "<div class='success'>DATA CHANGE SUCCESSFUL</div>" : "<div class='failure'>DATA CHANGE FAILED</div>";
 } else {
   $lastPostSuccess = "";
 }
@@ -41,15 +41,42 @@ restore_error_handler();
     <meta charset="utf-8">
     <title>Data Management</title>
     <link rel="stylesheet" href="css/master.css">
+    <style media="screen">
+      .success {
+        background-color: lightgreen;
+        width: 100%;
+        text-align: center;
+        font-weight: 700;
+        padding: 1em 0 1em 0;
+      }
+      .failure {
+        background-color: lightcoral;
+        width: 100%;
+        text-align: center;
+        font-weight: 700;
+        padding: 1em 0 1em 0;
+      }
+      .center {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+      }
+    </style>
   </head>
   <body>
 
     <?php include_once 'shared/header.php'; ?>
 
-    <div class="main-content">
-      <!-- Tells if the last server request was succesfull -->
+    <div class="main-content center">
+      <!-- Tells if the last server request was succesfull or not -->
       <?php echo $lastPostSuccess ?>
-      <form class="box" action="adminFunc.php" method="post" id="locationForm">
+
+      <div style="padding: 1em 0 1em 0;">
+        <button type="button" onclick="document.getElementById('locationForm').classList.toggle('hidden')">Location Form</button>
+        <button type="button" onclick="document.getElementById('eventForm').classList.toggle('hidden')">Event Form</button>
+      </div>
+      <!-- Form used for adding or updating a location -->
+      <form class="center" action="adminFunc.php" method="post" id="locationForm">
         <h1>Create Location Data Entry</h1>
         <div class="form-holder">
           <input type="hidden" name="update" value="location">
@@ -88,27 +115,35 @@ restore_error_handler();
         <input type="submit" value="Submit">
       </form>
       <!-- END LOCATION FORM <><><><><><><><><><><> START EVENT FORM -->
-
-      <!-- FORM FOR CREATING EVENTS
-      <form class="box" action="auth.php" method="post" id="locationForm">
+      <!-- Form used for adding or updating an event -->
+      <form class="center hidden" action="adminFunc.php" method="post" id="eventForm">
         <h1>Create Event Data Entry</h1>
         <div class="form-holder">
-          <p>Names: (both languages)</p>
-          <input type="text" name="Name_IT" placeholder="Italian Name" id="Name_IT" required>
-          <input type="text" name="Name_EN" placeholder="English Name" id="Name_EN" required>
+          <input type="hidden" name="update" value="event">
+          <!-- <?php
+            (isset($_POST['id'])) ? "'" . $_POST['id'] . "'" : "" ;
+          ?> -->
+          <input type="hidden" name="id" value="<?php echo $id ?>">
+          <!-- <h4>Names: (both languages)</h4> -->
+          <h4>Event Name and Location Name and Description</h4>
+          <input type="text" name="event_name" placeholder="Event Name" id="event_name" required>
+          <input type="text" name="location_name" placeholder="Location Name" id="location_name">
+          <input type="text" name="event_description" placeholder="Event Description" id="event_description">
           <br><br>
-          <p>Names: (both languages)</p>
-          <input type="text" name="username" placeholder="Username" id="username" required>
-          <input type="text" name="password" placeholder="Password" id="password" required>
-          <input type="text" name="username" placeholder="Username" id="username" required>
-          <input type="text" name="password" placeholder="Password" id="password" required>
+          <h4>Start Date and Time</h4>
+          <input type="date" name="start_date" placeholder="" id="start_date">
+          <input type="time" name="start_time" placeholder="" id="start_time">
+          <br><br>
+          <h4>End Date and Time</h4>
+          <input type="date" name="end_date" placeholder="" id="end_date">
+          <input type="time" name="end_time" placeholder="" id="end_time">
         </div>
         <br><br>
         <input type="submit" value="Submit">
-      </form> -->
+      </form>
     </div>
   </body>
   <script type="text/javascript">
-
+    // add a script here sometime I guess
   </script>
 </html>

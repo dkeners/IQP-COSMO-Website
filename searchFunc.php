@@ -1,10 +1,32 @@
 <?php
 
+session_start();
+
 require_once 'config.php';
 
 $clause = array();
 $snum = '';
 $varArray = array();
+
+// Setting table the request is coming from
+if (isset($_POST['table'])) {
+  switch ($_POST['table']) {
+    case 'location':
+      $table = 'locationdata';
+      break;
+    case 'event':
+      $table = 'eventdata';
+      break;
+    case 'assoc':
+      $table = 'assocdata';
+      break;
+    default:
+      $table = 'locationdata';
+      break;
+  }
+} else {
+  $table = 'locationdata';
+}
 
 // SETTING UP VARIABLES FOR EACH OF THE INPUTS
 // Searching based on words similar in titles and descriptions
@@ -43,9 +65,9 @@ if (isset($_POST['Exhibit'])) {
 //   $clause[] = "Type = 'Museum'";
 // }
 
-// Setting date limits
+// Setting DATE LIMITS
 if (isset($_POST['start']) && isset($_POST['end'])) {
-  $clause[] = "start_date BETWEEN ? AND ? OR end_date BETWEEN ? AND ?)";
+  $clause[] = "start_date BETWEEN ? AND ? OR end_date BETWEEN ? AND ?";
   $snum .= 'ssss';
   $varArray[] = $_POST['start'];
   $varArray[] = $_POST['end'];
@@ -53,13 +75,13 @@ if (isset($_POST['start']) && isset($_POST['end'])) {
   $varArray[] = $_POST['end'];
 } elseif (isset($_POST['start'])) {
   // big date in the future
-  $clause[] = "start_date BETWEEN ? AND 4000-01-01 OR end_date BETWEEN ? AND 4000-01-01)";
+  $clause[] = "start_date BETWEEN ? AND 2100-01-01 OR end_date BETWEEN ? AND 2100-01-01";
   $snum .= 'ss';
   $varArray[] = $_POST['start'];
   $varArray[] = $_POST['start'];
 } elseif (isset($_POST['start'])) {
   // date just before the very first point of our database records
-  $clause[] = "start_date BETWEEN 2015-01-01 AND ? OR end_date BETWEEN 2015-01-01 AND ?)";
+  $clause[] = "start_date BETWEEN 2015-01-01 AND ? OR end_date BETWEEN 2015-01-01 AND ?";
   $snum .= 'ss';
   $varArray[] = $_POST['end'];
   $varArray[] = $_POST['end'];
@@ -74,24 +96,6 @@ if (isset($_POST['limit'])) {
 }
 
 // CREATING THE REQUEST STRING FROM INPUTS
-if (isset($_POST['table'])) {
-  switch ($_POST['table']) {
-    case 'location':
-      $table = 'locationdata';
-      break;
-    case 'event':
-      $table = 'eventdata';
-      break;
-    case 'assoc':
-      $table = 'assocdata';
-      break;
-    default:
-      $table = 'locationdata';
-      break;
-  }
-} else {
-  $table = 'locationdata';
-}
 
 // Turn the array into a single string
 $whereSTR = implode(' OR ', $clause);
@@ -107,7 +111,9 @@ if ($limitSTR != '') {
   $reqSTR .= $limitSTR;
 }
 
+
 // CREATE REQUESTS FOR EACH UNIQUE CASE: LIVE, MAP, OR SEARCH
+
 // The first request is for the live searchbar feed
 if ($_POST['reqType'] == 'live') {
   // lookup top ten matches from the database if length of keyword > 0
@@ -125,15 +131,9 @@ if ($_POST['reqType'] == 'live') {
       $hint="";
       if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {
-          if ($hint=="") {
-            $hint = "<a href='#' onclick='selectSuggestion(this)'>" .
-            (($row['name_EN'] != '') ? $row['name_EN'] : $row['name_IT'])
-            . "</a>";
-          } else {
-            $hint = $hint . "<br /><a href='#' onclick='selectSuggestion(this)'>" .
-            (($row['name_EN'] != '') ? $row['name_EN'] : $row['name_IT'])
-            . "</a>";
-          }
+          $hint .= "<a href='#' onclick='selectSuggestion(this)'>" .
+          (($row['name_EN'] != '') ? $row['name_EN'] : $row['name_IT'])
+          . "</a><br />";
         }
       }
 
@@ -190,29 +190,74 @@ if ($_POST['reqType'] == 'live') {
 
       $result = $stmt->get_result();
 
-      if ($result->num_rows > 0) {
-        while($row = $result->fetch_assoc()) {
-          $resultsArray[] = $row;
+      $resultHTML = "";
+
+      if ($table == 'locationdata') {
+        if ($result->num_rows > 0) {
+          while($row = $result->fetch_assoc()) {
+          echo  "<div class='box-container'>
+                  <h1>" . $row['name_IT'] . "</h1>
+                  <h2>" . $row['address'] . "</h2>
+                  <div class='box-container-img'>
+                    <img src='images\home\\exhibit.jpg' alt='Picture of loc/event'>
+                  </div>
+                  <h2>" . $row['description_IT'] . "</h2>
+                  <div class='box-links'>
+                    more links here
+                  </div>" .
+                  ((isset($_SESSION['logged_in'])) ?
+                  "<div class='box-links'>
+                    <form class='' action='manageData.php' method='post'>
+                      <input type='hidden' name='edit' value='location'>
+                      <input type='hidden' name='id' value='" . $row['id'] . "'>
+                      <button type='submit' name='submit'>EDIT</button>
+                    </form>
+                    <form class='' action='adminFunc.php' method='post'>
+                      <input type='hidden' name='delete' value='location'>
+                      <input type='hidden' name='id' value='" . $row['id'] . "'>
+                      <button type='submit' name='submit'>DELETE</button>
+                    </form>
+                  </div>" : "" ) . "
+                 </div>";
+          }
+        }
+      } elseif ($table == 'eventdata') {
+        if ($result->num_rows > 0) {
+          while($row = $result->fetch_assoc()) {
+          echo  "<div class='box-container'>
+                  <h1>" . $row['event_name'] . "</h1>
+                  <h2>" . $row['location_name'] . "</h2>
+                  <div class='box-container-img'>
+                    <img src='images\home\\exhibit.jpg' alt='Picture of loc/event'>
+                  </div>
+                  <h2>" . $row['start_date'] . " to " . $row['end_date'] . "</h2>
+                  <div class='box-links'>
+                    more links here
+                  </div>" .
+                  ((isset($_SESSION['logged_in'])) ?
+                  "<div class='box-links'>
+                    <form class='' action='manageData.php' method='post'>
+                      <input type='hidden' name='edit' value='event'>
+                      <input type='hidden' name='id' value='" . $row['id'] . "'>
+                      <button type='submit' name='submit'>EDIT</button>
+                    </form>
+                    <form class='' action='adminFunc.php' method='post'>
+                      <input type='hidden' name='delete' value='event'>
+                      <input type='hidden' name='id' value='" . $row['id'] . "'>
+                      <button type='submit' name='submit'>DELETE</button>
+                    </form>
+                  </div>" : "" ) . "
+                 </div>";
+          }
         }
       }
 
       $stmt->close();
 
-      echo "<div class='box-container'>
-        <h1>loc/event name</h1>
-        <h2>loc/event location</h2>
-        <div class='box-container-img'>
-          <img src='images\home\\exhibit.jpg' alt='Picture of loc/event'>
-        </div>
-        <h2>description here</h2>
-        <div class='box-links'>
-          more links here
-        </div>
-        </div>";
       die;
   } else {
     echo "Search Request Failed:<br />";
-    echo "stmt: " . $stmtText;
+    echo "stmt: " . $reqSTR;
     http_response_code(400);
     die;
   }

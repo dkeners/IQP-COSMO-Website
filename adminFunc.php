@@ -15,7 +15,7 @@ if (!isset($_SESSION['logged_in'])) {
   if ($_POST['delete'] == 'location') {
     // if we are deleting a location, find the location and delete it.
     if ($stmt = $con->prepare('DELETE FROM locationdata WHERE (id = ?);')) {
-      $stmt->bind_param('s', $_POST['locationID']);
+      $stmt->bind_param('s', $_POST['id']);
 
       $stmt->execute();
 
@@ -31,7 +31,7 @@ if (!isset($_SESSION['logged_in'])) {
   } elseif ($_POST['delete'] == 'event') {
     // if we are deleting a event, find the event and delete it.
     if ($stmt = $con->prepare('DELETE FROM eventdata WHERE (id = ?);')) {
-      $stmt->bind_param('s', $_POST['eventID']);
+      $stmt->bind_param('s', $_POST['id']);
 
       $stmt->execute();
 
@@ -229,13 +229,18 @@ if (!isset($_SESSION['logged_in'])) {
       die;
 
     }
-  }  else {
+  } else {
     // IF NEW WAS TRUE, BUT NO VALID TABLE, QUIT
     header('Location: manageData.php?dataSubmitted=0');
     http_response_code(400);
     die;
   }
 
-
+} else {
+  // IF NO VALID METHOD WAS DEFINED EXIT
+  header('Location: manageData.php?dataSubmitted=0');
+  http_response_code(400);
+  die;
+}
 
 ?>

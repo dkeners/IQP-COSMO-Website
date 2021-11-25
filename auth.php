@@ -24,7 +24,7 @@ if ($stmt = $con->prepare('SELECT id, password FROM authusers WHERE username = ?
       $_SESSION['logged_in'] = TRUE;
       $_SESSION['name'] = $_POST['username'];
       $_SESSION['id'] = $id;
-      header('Location: addData.php');
+      header('Location: manageData.php');
       die;
     } else {
       echo 'Incorrect username and/or password.';
