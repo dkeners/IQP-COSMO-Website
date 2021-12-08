@@ -41,10 +41,13 @@ function updateResults(params) {
     var events = document.getElementById('events_checkbox').getAttribute('data-state') == 'enabled';
     var startDate = document.getElementById('fromDate').value;
     var endDate = document.getElementById('toDate').value;
-    var includeGalleries = document.getElementById('galleries_checkbox').getAttribute('data-state') == 'enabled';
-    var includeMuseums = document.getElementById('museums_checkbox').getAttribute('data-state') == 'enabled';
-    var includeTheatres = document.getElementById('theatres_checkbox').getAttribute('data-state') == 'enabled';
-    var includeOperaHouses = document.getElementById('opera_checkbox').getAttribute('data-state') == 'enabled';
+    // var limit = document.getElementById('searchLimitVenue').value;
+
+    
+    // var includeGalleries = document.getElementById('galleries_checkbox').getAttribute('data-state') == 'enabled';
+    // var includeMuseums = document.getElementById('museums_checkbox').getAttribute('data-state') == 'enabled';
+    // var includeTheatres = document.getElementById('theatres_checkbox').getAttribute('data-state') == 'enabled';
+    // var includeOperaHouses = document.getElementById('opera_checkbox').getAttribute('data-state') == 'enabled';
 
 
     // SETTING PARAMETERS FOR THE SEARCHFUNC FILE

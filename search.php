@@ -86,6 +86,11 @@ if (isset($_POST['type'])) {
             </div>
             <div class="extraSearchOptions hidden" id="expandableSearchBar">
               <div class="hidden" id="eventsOptions">
+                <!--LIMIT PANEL STRUCTURE-->
+                <div class='categoryPanel limitPanel'>
+                    <p>Amount of Events: </p>
+                    <input type="range" name="" value="500" min="0" max="500" id="searchLimitEvent">
+                </div>
                 <!--DATE PANEL STRUCTURE-->
                 <div id='datePanel'>
                     <!-- cannot be earlier than the earliest datapoint -->
@@ -103,25 +108,15 @@ if (isset($_POST['type'])) {
                 </div>
               </div>
               <div class="" id="venueOptions">
-                <!--CATEGORY PANEL STRUCTURE-->
-                <div class='categoryPanel'>
-                    <div data-state='disabled' class='categoryCheckbox CC_disabled' id='galleries_checkbox' onclick='toggleCheckbox(id)'>Galleries</div>
-                    <div data-state='disabled' class='categoryCheckbox CC_disabled' id='museums_checkbox' onclick='toggleCheckbox(id)'>Museums</div>
-                    <div data-state='disabled' class='categoryCheckbox CC_disabled' id='theatres_checkbox' onclick='toggleCheckbox(id)'>Theatres</div>
-                    <div data-state='disabled' class='categoryCheckbox CC_disabled' id='opera_checkbox' onclick='toggleCheckbox(id)'>Opera Houses</div>
+                <!--LIMIT PANEL STRUCTURE-->
+                <div class='categoryPanel limitPanel'>
+                    <p>Amount of Locations: </p>
+                    <input type="range" name="" value="500" min="0" max="500" id="searchLimitVenue">
                 </div>
               </div>
             </div>
           </div>
-        <!-- <div class="title">
-          <form>
-            <input type="text" size="30" onkeyup="showResult(this.value)">
-            <div id="livesearch"></div>
-          </form>
-        </div>
-        <div class="description">
-
-        </div> -->
+          <!-- End Seacrh bar -->
       </div>
       <div class="auto-generated" id="resultsDisplayArea">
         <!-- DEV ##################### -->
